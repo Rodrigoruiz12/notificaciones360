@@ -1,32 +1,25 @@
 package com.botilleria.notificaciones.controller;
 
-
-import com.botilleria.notificaciones.model.Notificacion;
 import com.botilleria.notificaciones.service.NotificacionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/notificaciones")
 public class NotificacionController {
 
     @Autowired
-    private NotificacionService servicioDeNotificacion;
+    private NotificacionService notificacionService;
 
-    @GetMapping
-    public ResponseEntity<List<Notificacion>> listarCatalogo() {
-        return ResponseEntity.ok(servicioDeNotificacion.obtenerTodos());
-    }
-
-    @GetMapping("/{identificador}")
-    public ResponseEntity<Notificacion> obtenerDetalle(@PathVariable Long identificador) {
-        Notificacion notificacionEncontrado = servicioDeNotificacion.buscarPorId(identificador);
-        if (notificacionEncontrado != null) {
-            return ResponseEntity.ok(notificacionEncontrado);
-        }
-        return ResponseEntity.notFound().build();
+    @PostMapping("/test")
+    public ResponseEntity<String> probarCorreo(@RequestBody Map<String, String> payload) {
+        String destinatario = payload.getOrDefault("destinatario", "prueba@correo.com");
+        String asunto = payload.getOrDefault("asunto", "Prueba desde Postman");
+        String mensaje = payload.getOrDefault("mensaje", "Este es un mensaje de prueba.");
+        
+        notificacionService.enviarCorreo(destinatario, asunto, mensaje);
+        return ResponseEntity.ok("Correo simulado enviado exitosamente a " + destinatario);
     }
 }
