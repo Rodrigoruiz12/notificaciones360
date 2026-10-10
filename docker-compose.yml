@@ -1,0 +1,9 @@
+services:
+  usuarios:
+    build: .
+    container_name: ms-notificaciones
+    ports:
+      - "8085:8085"
+    env_file:
+      - .env
+    restart: unless-stopped
