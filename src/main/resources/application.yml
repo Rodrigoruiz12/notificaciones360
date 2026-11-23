@@ -32,6 +32,7 @@ app:
   kafka:
     enabled: ${KAFKA_ENABLED:true}
     topic-pagos: ${KAFKA_TOPIC_PAGOS:pagos.alertas}
+    topic-notificaciones: ${KAFKA_TOPIC_NOTIFICACIONES:notificaciones.eventos}
   security:
     jwt:
       providers:
